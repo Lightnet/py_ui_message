@@ -1,0 +1,10 @@
+.venv
+*.pyd
+*.c
+main.spec
+Pipfile.lock
+dist
+build
+__pycache__
+
+

@@ -1,0 +1,16 @@
+<html>
+  <body>
+    <div>
+      hello
+    </div>
+    <script>
+      var ws = new WebSocket("ws://127.0.0.1:5000/ws");
+      ws.onopen = () => {
+        ws.send("Hello, world");
+      };
+      ws.onmessage = (evt) => {
+        console.log(evt.data);
+      };
+    </script>
+  </body>
+</html>
