@@ -16,7 +16,7 @@
 # Information:
   This is just prototype. Note there example from the lesson on the sites by using the search engine.
 
-  Trying to build universal tool for chat.
+  Trying to build universal tool for chat message.
 
   One reason is learning and build tool for local chat message development.
 
@@ -88,13 +88,8 @@ pyinstaller --onefile --clean src/main.py
 pyinstaller --onefile -w --clean src/main.py
 ```
 
-
 # Refs:
- * https://www.youtube.com/watch?v=sFSLY7n3YsM
- * https://www.youtube.com/watch?v=Ab8TOSFfNp4&t=282s Creating a Voxel Engine (like Minecraft) from Scratch in Python 
- * https://github.com/StanislavPetrovV/Minecraft
  * https://docs.python.org/3/library/tkinter.html
- * https://github.com/pygame/pygame
  * https://github.com/theochem/python-cython-ci-example/tree/master
  * https://neurohackweek.github.io/cython-tutorial/02-compiling/
  * https://stackoverflow.com/questions/2581784/can-cython-compile-to-an-exe
