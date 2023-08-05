@@ -16,11 +16,16 @@
 # Information:
   This is just prototype. Note there example from the lesson on the sites by using the search engine.
 
-  Trying to build universal tool for chat message.
+  Trying to build universal tool for chat message. Or just portable message database.
 
   One reason is learning and build tool for local chat message development.
 
   Idea to build some sort of peer to peer and torrent to create data management and backup system for messages. Just an idea.
+
+# Design:
+  * Back up page auth for temp build
+  * Render component for solid-js
+  * Rest API http request
 
 # Connection types:
  * websocket

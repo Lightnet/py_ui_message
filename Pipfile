@@ -17,6 +17,7 @@ flask-socketio = "*"
 pywebview = "*"
 simple-websocket = "*"
 pyjwt = "*"
+flask-sqlalchemy = "*"
 
 [dev-packages]
 

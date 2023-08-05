@@ -2,8 +2,24 @@
 
 {% block content %}
   <script type="application/javascript">
-    function click_signout(){
+    async function click_signout(){
       console.log("click")
+      try {
+        const response = await fetch("/api/signout",{
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            //alias:alias,
+            //passphrase:pass
+          }),
+        });
+        const result = await response.json();
+        console.log(result);
+      } catch (error) {
+        console.log(error)
+      }
     }
     function click_back(){
       console.log("click")

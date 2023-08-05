@@ -14,7 +14,6 @@ from flask_socketio import SocketIO, emit
 from server_flask_web import database
 from server_flask_web.models.user import create_user, login_check_user
 
-
 app = Flask(__name__)
 
 #================================================
@@ -23,6 +22,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 app.config['DEBUG'] = True #auto watch file and reload
 app.config['DATABASE'] = "sqlite.db"
+#app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
 #print(app.config)
 socketio = SocketIO(app, logger=False, engineio_logger=False)
 #@app.route("/")
@@ -34,15 +34,19 @@ socketio = SocketIO(app, logger=False, engineio_logger=False)
 @app.route('/')
 def index():
   #request
-  name = request.cookies.get('userID')
-  print("Name: ", name)
-  return render_template('index.html')
+  token = request.cookies.get('token')
+  print("token: ", token)
+  if token:
+    return render_template('home.html')
+  else:
+    return render_template('index.html')
+  
 #================================================
 # SIGNIN
 #================================================
 # Page render
 @app.route('/signin')
-def url_sign_in():
+def html_sign_in():
   return render_template('signin.html')
 # https://www.geeksforgeeks.org/flask-cookies/
 # Auth login
@@ -100,10 +104,18 @@ def page_signout():
   return render_template('signout.html')
   #return jsonify([u.to_json() for u in users])
 
-@app.route('/api/signout')
+@app.route('/api/signout', methods=['POST'])
 def auth_signout():
-  return render_template('index.html')
-  #return jsonify([u.to_json() for u in users])
+  #return render_template('index.html')
+  if request.cookies.get('token'):
+    print("FOUND TOKEN:", request.cookies.get('token'))
+    resp = make_response(jsonify({'api':'logout'}))
+    resp.set_cookie('token', '', expires=0)
+    return resp
+  else:
+    return jsonify({'api':'NONE'})
+
+
 #================================================
 # SOCKET.IO
 #================================================
@@ -146,4 +158,4 @@ def init_web_server():
   #app.run()
   database.init_app(app)
 
-  socketio.run(app)
+  socketio.run(app, port=3000)
