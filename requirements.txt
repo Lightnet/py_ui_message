@@ -5,3 +5,10 @@ ttkthemes==3.2.2
 pandas==2.0.3
 tkinterweb==3.19.2
 Django==4.2.4
+pyjwt==2.8.0
+flask==2.3.2
+flask-socketio==5.3.5
+bottle==0.12.25
+
+
+

@@ -1,29 +1,33 @@
-<!DOCTYPE html>
-<html>
-   <body>
-    <label>Hello World!</label>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" crossorigin="anonymous"></script>
-      <script type="application/javascript">
+{% extends 'base.html' %}
+
+{% block content %}
+  <div>
+    <a href="/signin">Sign In</a>
+    <a href="/signup">Sign Up</a>
+    <a href="/signout">Sign Out</a>
+  </div>
+  <label>Hello World!</label>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" crossorigin="anonymous"></script>
+    <script type="application/javascript">
+      //var socket = io();
+      //socket.on('connect', function() {
+        //socket.emit('my event', {data: 'I\'m connected!'});
+      //});
+      /*
+      $(document).ready(function(){
         var socket = io();
-        socket.on('connect', function() {
-            socket.emit('my event', {data: 'I\'m connected!'});
+        socket.on('my response', function(msg) {
+          $('#log').append('<p>Received: ' + msg.data + '</p>');
         });
-        /*
-        $(document).ready(function(){
-            var socket = io();
-            socket.on('my response', function(msg) {
-                $('#log').append('<p>Received: ' + msg.data + '</p>');
-            });
-            $('form#emit').submit(function(event) {
-                socket.emit('my event', {data: $('#emit_data').val()});
-                return false;
-            });
-            $('form#broadcast').submit(function(event) {
-                socket.emit('my broadcast event', {data: $('#broadcast_data').val()});
-                return false;
-            });
+        $('form#emit').submit(function(event) {
+          socket.emit('my event', {data: $('#emit_data').val()});
+          return false;
         });
-        */
-      </script>
-   </body>
-</html>
+        $('form#broadcast').submit(function(event) {
+          socket.emit('my broadcast event', {data: $('#broadcast_data').val()});
+          return false;
+        });
+      });
+      */
+    </script>
+{% endblock %}

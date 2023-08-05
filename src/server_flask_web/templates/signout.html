@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <script type="application/javascript">
+    function click_signout(){
+      console.log("click")
+    }
+    function click_back(){
+      console.log("click")
+      document.location.href = "/"
+    }
+    //action="/api/signin" method="POST"
+    //javascript:void(0);
+
+  </script>
+    Are you sure to 
+    <button onclick="click_signout();"> Logout</button>?
+    <button onclick="click_back();"> Back</button>
+  </form>
+{% endblock %}
