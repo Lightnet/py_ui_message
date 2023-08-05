@@ -5,6 +5,7 @@
 
 from flask import Flask, jsonify, make_response, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+import jwt
 from sqlalchemy import func
 from .model_alchemy import User, app, db
 #import os
@@ -16,20 +17,6 @@ from .model_alchemy import User, app, db
 app.config['SECRET_KEY'] = 'secret!'
 app.config['DEBUG'] = True #auto watch file and reload
 
-# create the extension
-#db = SQLAlchemy(app)
-# initialize the app with the extension
-#db.init_app(app)
-
-"""
-class User(db.Model):
-  id = db.Column(db.Integer, primary_key=True)
-  alias = db.Column(db.String, unique=True, nullable=False)
-  passphrase = db.Column(db.String, nullable=False)
-  email = db.Column(db.String)
-  created = db.Column(db.DateTime(timezone=True),
-                           server_default=func.now())
-"""
 #with app.app_context():
   #print("CREATE DB Table...")
   #db.create_all()
@@ -38,8 +25,14 @@ class User(db.Model):
 #================================================
 @app.route("/")
 def index():
-  #return "Hello"
+  
+  token = request.cookies.get('token')
+  if token: #check token exist
+    user_data = jwt.decode(token, "secret", algorithms=["HS256"])
+    if user_data: #check for sign data
+      return render_template('home.html')
   return render_template('index.html')
+  #return "Hello"
 
 #================================================
 # SIGNIN
@@ -53,11 +46,35 @@ def html_sign_in():
 def auth_signin():
   user = request.get_json()
   userData = db.session.execute(db.select(User).filter_by(alias=user['alias'])).fetchone()
+  print(user)#need to check string
+  data ={}
   if userData:
     print("User Exist!")
     print("userData: ", userData)
-  print(user)
-  return "Hello"
+    print(userData[0].passphrase)
+    if userData[0].passphrase == user['passphrase']:
+      data['api'] = "PASS"
+      token = jwt.encode({"alias": userData[0].alias, 'date':"NOne"}, "secret", algorithm="HS256")
+
+      resp = make_response(jsonify({"alias":user['alias']}))
+      resp.set_cookie('token', token)
+      return resp
+    else:
+      data['api'] = "DENIED"
+      return jsonify(data)
+  else:
+    print("FAIL")
+    data['api'] = "FAIL"
+    return jsonify(data)
+  
+@app.route('/api/token')
+def get_token():
+  token = request.cookies.get('token')
+  print("token: ", token)
+  user_data = jwt.decode(token, "secret", algorithms=["HS256"])
+  print("user_data: ", user_data)
+  return "token"
+
 #================================================
 # SIGNUP
 #================================================
@@ -72,13 +89,17 @@ def auth_signup():
   user = request.get_json()
   #print(user)
   print("ALIAS: ",user['alias'])
+  #user data
+  data = {}
   userData = db.session.execute(db.select(User).filter_by(alias=user['alias'])).fetchone()
   if userData:
     print("User Exist!")
     #print("userData: ", userData)
     #print("userData: ", userData[0].alias)
     #print("userData: ", userData[0].passphrase)
+    data['api'] = "EXIST"
   else:
+    #CREATE USER
     print("NOT FOUND...")
     new_user = User(
       alias=user['alias'],
@@ -86,10 +107,12 @@ def auth_signup():
     )
     db.session.add(new_user) #query
     db.session.commit() #update
+    data['api'] = "CREATED"
     
   #data=create_user(user['alias'], user['passphrase'])
   #print("result data: ", data)
-  return jsonify({"msg":"hello"})
+  #return jsonify({"msg":"hello"})
+  return jsonify(data)
 
 #================================================
 # SIGNOUT
@@ -101,14 +124,20 @@ def html_signout():
 @app.route('/api/signout', methods=['POST'])
 def auth_signout():
   #return render_template('index.html')
-  if request.cookies.get('token'):
-    print("FOUND TOKEN:", request.cookies.get('token'))
-    resp = make_response(jsonify({'api':'logout'}))
-    resp.set_cookie('token', '', expires=0)
-    return resp
+  token = request.cookies.get('token')
+  if token:
+    user_data = jwt.decode(token, "secret", algorithms=["HS256"])
+    if user_data:
+      print("FOUND TOKEN:", request.cookies.get('token'))
+      resp = make_response(jsonify({'api':'logout'}))
+      resp.set_cookie('token', '', expires=0)
+      return resp
+    else:
+      resp = make_response(jsonify({'api':'NONE'}))
+      resp.set_cookie('token', '', expires=0)
   else:
     return jsonify({'api':'NONE'})
-
+# Test DB
 @app.route('/db_table')
 def db_table():
   with app.app_context():
@@ -116,7 +145,6 @@ def db_table():
     db.create_all()
   db.create_all()
   return ""
-
 
 #================================================
 # INIT SERVER
