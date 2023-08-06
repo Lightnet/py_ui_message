@@ -18,6 +18,7 @@ pywebview = "*"
 simple-websocket = "*"
 pyjwt = "*"
 flask-sqlalchemy = "*"
+ttkbootstrap = "*"
 
 [dev-packages]
 
