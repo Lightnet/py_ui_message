@@ -56,7 +56,7 @@ def auth_signin():
       data['api'] = "PASS"
       token = jwt.encode({"alias": userData[0].alias, 'date':"NOne"}, "secret", algorithm="HS256")
 
-      resp = make_response(jsonify({"alias":user['alias']}))
+      resp = make_response(jsonify({"alias":user['alias'],"api":"PASS"}))
       resp.set_cookie('token', token)
       return resp
     else:
@@ -137,6 +137,14 @@ def auth_signout():
       resp.set_cookie('token', '', expires=0)
   else:
     return jsonify({'api':'NONE'})
+
+@app.route('/admin')
+def page_admin():
+
+
+  return render_template('admin.html')
+
+
 # Test DB
 @app.route('/db_table')
 def db_table():
