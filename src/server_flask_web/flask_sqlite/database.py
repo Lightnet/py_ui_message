@@ -5,15 +5,15 @@
 # https://stackoverflow.com/questions/51822129/access-flask-app-context-in-cli-command
 
 
-
 import sqlite3
 import click
-from flask import current_app, g
-from flask.cli import with_appcontext
+from flask import Blueprint, current_app, g
+from .app_module import app
+#from flask.cli import with_appcontext
 
 def get_db():
   if 'db' not in g:
-    print("init db: ",current_app.config['DATABASE'])
+    #print("init db: ",current_app.config['DATABASE'])
     g.db = sqlite3.connect(
       current_app.config['DATABASE'],
       detect_types=sqlite3.PARSE_DECLTYPES
@@ -30,7 +30,7 @@ def close_db(e=None):
 
 def init_db():
   db = get_db()
-  print("init db")
+  #print("init db")
   with current_app.open_resource('../schemas/user.sql') as f:
     print("init start table")
     db.executescript(f.read().decode('utf8'))
@@ -38,7 +38,7 @@ def init_db():
 # https://flask.palletsprojects.com/en/2.3.x/tutorial/database/
 # cmd line py server.py init-db
 @click.command('init-db')
-@with_appcontext
+#@with_appcontext
 def init_db_command():
   print("CMD INIT DATABASE CREATE TABLE")
   """Clear the existing data and create new tables."""
@@ -51,15 +51,18 @@ def init_app(app):
   app.cli.add_command(init_db_command)
 
 # Test DB
-"""
-@app.route('/db_table')
+bp = Blueprint('database', __name__)
+@bp.route('/db_table')
 def db_table():
-  with app.app_context():
-    print("CREATE DB Table...")
-    db.create_all()
-  db.create_all()
+  init_db()
+  #db = get_db()
+  #with app.app_context():
+    #print("CREATE DB Table...")
+    #db.create_all()
+  #db.create_all()
   return ""
 
+"""
 try:
   conn = sqlite3.connect('sqlite.db')
   cursor = conn.cursor()

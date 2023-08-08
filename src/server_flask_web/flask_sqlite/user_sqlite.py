@@ -5,18 +5,19 @@
 
 import sqlite3
 import jwt
-from server_flask_web.flask_sqlite.db_sqlite import get_db
+from .database import get_db
 
 def create_user(_name, _pass):
     conn = get_db()
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM user WHERE alias = ?',(_name,))
     checkUsername = cursor.fetchone()
-    print("checkUsername: ", checkUsername)
+    #print("checkUsername: ", checkUsername)
+    data = {}
     if checkUsername:
-        print('Logged In!')
+        print('Alias Exist!')
         user : list[sqlite3.Row] = checkUsername
-
+        data['api'] = "EXIST"
         #print(user)
         print(user['alias'])
         #print(checkUsername)
@@ -26,33 +27,41 @@ def create_user(_name, _pass):
         #print(checkUsername['username'])
     else:
         print('Username does not exist')
+        data['api'] = "CREATED"
         cursor.execute('INSERT INTO user (alias, passphrase) VALUES(?, ?)', (_name, _pass) )
         conn.commit()
 
     conn.close()
+    return data
 
 def login_check_user(_name, _pass):
   conn = get_db()
   cursor = conn.cursor()
   cursor.execute('SELECT * FROM user WHERE alias = ?',(_name,))
   checkUsername = cursor.fetchone()
-  print("checkUsername: ", checkUsername)
+  #print("checkUsername: ", checkUsername)
   data = {}
   if checkUsername:
-    print('Logged In!')
-    user : list[sqlite3.Row] = checkUsername
-
+    #print('Logged In!')
+    #user : list[sqlite3.Row] = checkUsername
     #print(user)
-    print(user['alias'])
+    #print(user['alias'])
     #print(checkUsername)
     #print(checkUsername[0])
     #print(checkUsername[1])
     #print(checkUsername[2])
-    #print(checkUsername['username'])
+    #print(checkUsername['alias'])
+    #print(checkUsername['passphrase'])
     token = jwt.encode({"alias": "test"}, "secret", algorithm="HS256")
-    print("token: ", token)
+    #print("token: ", token)
     data['token'] = token
-    data['api'] = "PASS"
+    
+    if checkUsername['passphrase'] == _pass:
+       data['api'] = "PASS"
+
+
+    else:
+       data['api'] = "FAIL"
   else:
     print('Username does not exist')
     data['api'] = "FAIL"
@@ -61,6 +70,7 @@ def login_check_user(_name, _pass):
   return data
 
 """
+#note example ref
 def get_users():
     users = []
     try:

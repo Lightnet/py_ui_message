@@ -13,7 +13,7 @@ import logging
 from flask import Flask, jsonify, make_response, render_template, request
 from flask_socketio import SocketIO, emit
 
-from server_flask_web.flask_sqlite import db_sqlite
+from server_flask_web.flask_sqlite import database
 from server_flask_web.flask_sqlite.user_sqlite import create_user, login_check_user
 
 app = Flask(__name__)
@@ -139,14 +139,14 @@ def auth_signout():
 #================================================
 @app.route('/db')
 def check_db():
-  mydb = db_sqlite.get_db()
+  mydb = database.get_db()
   print(mydb)
   return "Hello DB!"
   #return render_template('index.html')
 
 @app.route('/db_createtable')
 def db_create_table():
-  db_sqlite.init_db()
+  database.init_db()
   return "DB TABLE!"
   #return render_template('index.html')
 #================================================
@@ -158,6 +158,6 @@ def init_web_server():
   # run() method of Flask class runs the application
   # on the local development server.
   #app.run()
-  db_sqlite.init_app(app)
+  database.init_app(app)
 
   socketio.run(app, port=3000)

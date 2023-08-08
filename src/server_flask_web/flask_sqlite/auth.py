@@ -1,11 +1,11 @@
 #!/usr/bin/python
+"""
+  Auth access for sign up, in, and out for account build access
+"""
 
 import functools
 from flask import Blueprint, jsonify, make_response, render_template, request
-
 from server_flask_web.flask_sqlite.user_sqlite import create_user, login_check_user
-
-bp = Blueprint('auth', __name__)
 
 #bp = Blueprint('auth', __name__, url_prefix='/auth')
 bp = Blueprint('auth', __name__)
@@ -22,13 +22,13 @@ def html_sign_in():
 @bp.route('/api/signin', methods = ['POST'])
 def auth_signin():
   user = request.get_json()
-  print(user)
+  #print(user)
   #name = request.cookies.get('userID')
   data = login_check_user(user['alias'],user['passphrase'])
-  print("result data: ", data)
+  #print("result data: ", data)
   if data['api'] == "PASS":
-    print("PASS TOKEN...")
-    resp = make_response(jsonify({"alias":user['alias']}))
+    #print("PASS TOKEN...")
+    resp = make_response(jsonify({"alias":user['alias'], "api":"PASS"}))
     resp.set_cookie('token', data['token'])
     return resp
     #pass
@@ -53,10 +53,16 @@ def auth_signup():
   #user = request.get_json()
   #user = request.get_data()
   user = request.get_json()
-  
+  user['alias']
+  if not user['alias'] or not user['passphrase']:
+    return jsonify({"api":"EMPTY"}) 
   print(user)
   data=create_user(user['alias'], user['passphrase'])
   print("result data: ", data)
+  if data:
+    return jsonify({"api":data['api']})  
+  else:
+    return jsonify({"api":"ERROR"})  
 
   #user = request.form.get('alias')
   #passphrase = request.form.get('passphrase')
@@ -64,7 +70,7 @@ def auth_signup():
   #print(user)
   #print(passphrase)
   #return render_template('index.html')
-  return jsonify({"msg":"hello"})
+  #return jsonify({"msg":"hello"})
 #================================================
 # SIGNOUT
 #================================================

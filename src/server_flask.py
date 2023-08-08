@@ -1,7 +1,7 @@
 # Test
 # sqlite3 test
-from server_flask_web import init_web_server
+from server_flask_web.flask_sqlite import create_app
 
 # main driver function
 if __name__ == '__main__':
-  init_web_server()
+  create_app()

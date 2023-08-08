@@ -11,10 +11,11 @@ import logging
 from flask import Flask
 from flask_socketio import SocketIO, emit
 
-from . import db_sqlite
+from . import database
 from .app_module import app
 from . import page
 from . import auth
+from . import database
 
 #app = Flask(__name__)
 
@@ -80,10 +81,11 @@ def create_app():
   #blueprint
   app.register_blueprint(auth.bp)
   app.register_blueprint(page.bp)
+  app.register_blueprint(database.bp)
   
   # on the local development server.
   #app.run()
-  db_sqlite.init_app(app)
+  database.init_app(app)
 
   socketio.run(app, port=3000)
   return app
