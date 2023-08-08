@@ -1,4 +1,5 @@
 # https://flask.palletsprojects.com/en/2.3.x/tutorial/views/
+# https://pythonprogramming.net/decorator-wrappers-flask-tutorial-login-required/
 
 import functools
 from flask import (
@@ -6,7 +7,7 @@ from flask import (
 )
 import jwt
 
-from server_flask_web.model_alchemy import User, db
+from .model import User, db
 
 #bp = Blueprint('auth', __name__, url_prefix='/auth')
 bp = Blueprint('auth', __name__)
@@ -119,7 +120,30 @@ def html_recovery():
 def auth_recovery():
   return jsonify({'api':'NONE'})
 
+#================================================
+# Login check middle ware
+# @app.route(...)
+# @login_required
+#def test_foo():
+#  return "access bar"
+#================================================
+def login_required(view):
+  @functools.wraps(view)
+  def wrapped_view(**kwargs):
+    print("CHECK LOGIN REQUIRED")
+    print(g)
+    #if g.user is None:
+      
+      #return redirect(url_for('/login'))
+      ##return redirect(url_for('auth.login'))
 
+    return view(**kwargs)
+
+  return wrapped_view
+
+#================================================
+# Testing...
+#================================================
 @bp.route('/api/token')
 def get_token():
   print("nest")
@@ -128,15 +152,3 @@ def get_token():
   user_data = jwt.decode(token, "secret", algorithms=["HS256"])
   print("user_data: ", user_data)
   return "token"
-
-def login_required(view):
-  @functools.wraps(view)
-  def wrapped_view(**kwargs):
-    if g.user is None:
-      print("REDIRECT LOGIN")
-      return redirect(url_for('/login'))
-      #return redirect(url_for('auth.login'))
-
-    return view(**kwargs)
-
-  return wrapped_view

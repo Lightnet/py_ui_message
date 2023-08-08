@@ -3,11 +3,13 @@
 # https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/
 # 
 
+# flask and database set up.
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
 #import os
-app = Flask(__name__)
+app = Flask(__name__,template_folder='../templates')
 
 #basedir = os.path.abspath(os.path.dirname(__file__))
 # configure the SQLite database, relative to the app instance folder

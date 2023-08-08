@@ -5,14 +5,14 @@ from flask import (
 )
 import jwt
 
-from server_flask_web.model_alchemy import User, db
+from .model import User, db
 
 #bp = Blueprint('auth', __name__, url_prefix='/auth')
-bp = Blueprint('admin', __name__)
+bp = Blueprint('game', __name__)
 #================================================
-# ADMIN
+# Game
 #================================================
-@bp.route('/admin')
+@bp.route('/game/control')
 def page_admin():
   token = request.cookies.get('token')
   if token:
@@ -24,15 +24,11 @@ def page_admin():
       #return resp
 
     else:
-      resp = make_response(jsonify({'api':'NONE'}))
-      resp.set_cookie('token', '', expires=0)
-      return resp
+      #resp = make_response(jsonify({'api':'NONE'}))
+      #resp.set_cookie('token', '', expires=0)
+      #return resp
+      return render_template('game.html')
   else:
-    return jsonify({'api':'NONE'})
-  return render_template('admin.html')
-
-@bp.route('/admin')
-def auth_admin():
-  token = request.cookies.get('token')
-  
-  return render_template('admin.html')
+    #return jsonify({'api':'NONE'})
+    return render_template('game.html')
+  return render_template('game.html')

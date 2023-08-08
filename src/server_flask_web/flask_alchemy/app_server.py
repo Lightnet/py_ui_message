@@ -4,11 +4,12 @@
 # https://flask.palletsprojects.com/en/2.3.x/blueprints/#why-blueprints
 
 #import os
-from server_flask_web import simple_page
-from .model_alchemy import app, db
+from .model import app, db
 
-from . import auth_alchemy
-from . import admin_alchemy
+from . import auth
+from . import admin
+from . import game
+from . import simple_page
 #basedir = os.path.abspath(os.path.dirname(__file__))
 
 #================================================
@@ -28,8 +29,9 @@ def create_app():
 
   #blueprint
   app.register_blueprint(simple_page.bp)
-  app.register_blueprint(auth_alchemy.bp)
-  app.register_blueprint(admin_alchemy.bp)
+  app.register_blueprint(auth.bp)
+  app.register_blueprint(admin.bp)
+  app.register_blueprint(game.bp)
 
   #init datbase by cmd line ''
   with app.app_context():

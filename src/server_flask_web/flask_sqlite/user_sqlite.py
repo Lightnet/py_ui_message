@@ -1,10 +1,11 @@
+#!/usr/bin/python
 # https://levelup.gitconnected.com/full-stack-web-app-with-python-react-and-bootstrap-backend-8592baa6e4eb
 # https://therenegadecoder.com/code/how-to-convert-sqlite3-rows-into-python-objects/
 # 
 
 import sqlite3
 import jwt
-from server_flask_web.database import get_db
+from server_flask_web.flask_sqlite.db_sqlite import get_db
 
 def create_user(_name, _pass):
     conn = get_db()
