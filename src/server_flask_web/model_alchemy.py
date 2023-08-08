@@ -3,8 +3,6 @@
 # https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/
 # 
 
-
-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func

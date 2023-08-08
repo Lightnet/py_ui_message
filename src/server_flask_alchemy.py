@@ -1,7 +1,7 @@
 # Test
 # sqlite with alchemy
-from server_flask_web.server_alchemy import init_web_server_sql
+from server_flask_web.server_alchemy import create_app
 
 # main driver function
 if __name__ == '__main__':
-  init_web_server_sql()
+  create_app()

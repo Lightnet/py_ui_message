@@ -44,16 +44,16 @@ def init_app(app):
   app.teardown_appcontext(close_db)
   app.cli.add_command(init_db_command)
 
-
-
-
-
-
-
-
-
-
-
+# Test DB
+"""
+@app.route('/db_table')
+def db_table():
+  with app.app_context():
+    print("CREATE DB Table...")
+    db.create_all()
+  db.create_all()
+  return ""
+"""
 
 
 """

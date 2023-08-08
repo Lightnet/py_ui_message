@@ -1,5 +1,5 @@
 # https://www.youtube.com/watch?v=RNEcewpVZUQ
-# 
+# https://stackoverflow.com/questions/14887610/specify-the-dimensions-of-a-tkinter-text-box-in-pixels
 # 
 # note some off set position and size
 
@@ -21,17 +21,28 @@ class App(tk.Tk):
     head_label.place(relwidth=1)
     #tiny divider
     line = ttk.Label(frame_chat, width=450, background="gray")
-    line.place(relwidth=1, rely=0.07, relheight=0.012)
-
+    #line.place(relwidth=1, rely=0.07, relheight=0.012)
+    
+    #scrollbar.configure(command=self.text_widget.yview)
     #text widget
+    #self.text_widget = ttk.Text(frame_chat, yscrollcommand=scrollbar.set, width=20, height=2, padx=5, pady=5)
     self.text_widget = ttk.Text(frame_chat, width=20, height=2, padx=5, pady=5)
     self.text_widget.place(relheight=0.745, relwidth=1, rely=0.08)
     self.text_widget.configure(cursor="arrow", state="disabled")
 
-    scrollbar = ttk.Scrollbar(frame_chat)
-    #scrollbar.place(relheight=0.8, relx=0.974)
+    scrollbar = ttk.Scrollbar(frame_chat, orient='vertical')
+    #scrollbar.place(relheight=0.8,relx=0.974)
     scrollbar.place(relheight=0.734, relx=0.974, rely=0.09)
-    scrollbar.configure(command=self.text_widget.yview)
+    #scrollbar.place(relx=0.974, rely=0.09)
+    scrollbar.config(command=self.text_widget.yview)
+    self.text_widget.configure(yscrollcommand=scrollbar.set)
+    #scrollbar.place(height=self.text_widget.winfo_height())
+
+
+    self.text_widget.configure(state="normal")
+    for i in range(100):
+      self.text_widget.insert(tk.END, "Welcome to Tutorialspoint...\n\n")
+    self.text_widget.configure(state="disabled")
 
     bottom_label = ttk.Label(frame_chat, background="gray")
     bottom_label.place(relwidth=1,rely=0.825)
