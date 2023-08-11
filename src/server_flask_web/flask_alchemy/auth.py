@@ -59,11 +59,15 @@ def html_signup():
 def auth_signup():
   user = request.get_json()
   #print(user)
-  print("ALIAS: ",user['alias'])
+  if not user['alias'] or not user['alias']:
+    return jsonify({"api":"EMPTY"})
+  print("Alias: ",user['alias'])
+  print("Passphrase: ",user['passphrase'])
   #user data
   data = {}
+  #check if user exist
   userData = db.session.execute(db.select(User).filter_by(alias=user['alias'])).fetchone()
-  if userData:
+  if userData:#if exist return message exist
     print("User Exist!")
     #print("userData: ", userData)
     #print("userData: ", userData[0].alias)
@@ -79,8 +83,7 @@ def auth_signup():
     db.session.add(new_user) #query
     db.session.commit() #update
     data['api'] = "CREATED"
-    
-  #data=create_user(user['alias'], user['passphrase'])
+
   #print("result data: ", data)
   #return jsonify({"msg":"hello"})
   return jsonify(data)
@@ -94,19 +97,18 @@ def html_signout():
 
 @bp.route('/api/signout', methods=['POST'])
 def auth_signout():
-  #return render_template('index.html')
+
   token = request.cookies.get('token')
   if token:
     user_data = jwt.decode(token, "secret", algorithms=["HS256"])
+    resp = None
     if user_data:
-      print("FOUND TOKEN:", request.cookies.get('token'))
+      #print("FOUND TOKEN:", request.cookies.get('token'))
       resp = make_response(jsonify({'api':'logout'}))
-      resp.set_cookie('token', '', expires=0)
-      return resp
     else:
       resp = make_response(jsonify({'api':'NONE'}))
-      resp.set_cookie('token', '', expires=0)
-      return resp
+    resp.set_cookie('token', '', expires=0)
+    return resp
   else:
     return jsonify({'api':'NONE'})
 #================================================
@@ -133,12 +135,9 @@ def login_required(view):
     print("CHECK LOGIN REQUIRED")
     print(g)
     #if g.user is None:
-      
       #return redirect(url_for('/login'))
       ##return redirect(url_for('auth.login'))
-
     return view(**kwargs)
-
   return wrapped_view
 
 #================================================
@@ -152,3 +151,4 @@ def get_token():
   user_data = jwt.decode(token, "secret", algorithms=["HS256"])
   print("user_data: ", user_data)
   return "token"
+
