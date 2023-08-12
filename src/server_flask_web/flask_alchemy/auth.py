@@ -18,7 +18,7 @@ bp = Blueprint('auth', __name__)
 # Page Html
 @bp.route('/signin')
 def html_sign_in():
-  return render_template('signin.html')
+  return render_template('auth/signin.html')
 
 # AUTH SIGNIN
 @bp.route('/api/signin', methods = ['POST'])
@@ -52,7 +52,7 @@ def auth_signin():
 # Page Html
 @bp.route('/signup')
 def html_signup():
-  return render_template('signup.html')
+  return render_template('auth/signup.html')
 
 # Auth signup
 @bp.route('/api/signup', methods = ['POST'])
@@ -93,7 +93,7 @@ def auth_signup():
 #================================================
 @bp.route('/signout')
 def html_signout():
-  return render_template('signout.html')
+  return render_template('auth/signout.html')
 
 @bp.route('/api/signout', methods=['POST'])
 def auth_signout():
@@ -116,7 +116,7 @@ def auth_signout():
 #================================================
 @bp.route('/recovery')
 def html_recovery():
-  return render_template('recovery.html')
+  return render_template('auth/recovery.html')
 
 @bp.route('/api/recovery', methods=['POST'])
 def auth_recovery():

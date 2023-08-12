@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'admin/base_admin.html' %}
 
 {% block content %}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" crossorigin="anonymous"></script>
@@ -7,6 +7,14 @@
   <div>
     <a href="/signout">Sign Out</a>
   </div>
-  <label>Hello Admin!</label>
+  <label>Admin Members:</label>
+  <table>
+    <tbody>
+      <tr>
+        <td>Name:</td>
+        <td>Status: </td>
+      </tr>
+    </tbody>
+  </table>
     
 {% endblock %}

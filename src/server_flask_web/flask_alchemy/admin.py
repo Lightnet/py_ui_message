@@ -22,29 +22,83 @@ def page_admin():
       #resp = make_response(jsonify({'api':'logout'}))
       #resp.set_cookie('token', '', expires=0)
       #return resp
+      return render_template('admin/admin.html')
+    
+  return render_template('admin/admin.html')
 
-    else:
-      #resp = make_response(jsonify({'api':'NONE'}))
+@bp.route('/admin/reports')
+def page_admin_reports():
+  token = request.cookies.get('token')
+  if token:
+    user_data = jwt.decode(token, "secret", algorithms=["HS256"])
+    if user_data:
+      print("FOUND TOKEN:", request.cookies.get('token'))
+      #resp = make_response(jsonify({'api':'logout'}))
       #resp.set_cookie('token', '', expires=0)
       #return resp
-      return render_template('admin.html')
-  else:
-    #return jsonify({'api':'NONE'})
-    return render_template('admin.html')
-  return render_template('admin.html')
+      return render_template('admin/admin_reports.html')
+    
+    
+  return render_template('admin/admin.html')
+
+@bp.route('/admin/members')
+def page_admin_members():
+  token = request.cookies.get('token')
+  if token:
+    user_data = jwt.decode(token, "secret", algorithms=["HS256"])
+    if user_data:
+      print("FOUND TOKEN:", request.cookies.get('token'))
+      #resp = make_response(jsonify({'api':'logout'}))
+      #resp.set_cookie('token', '', expires=0)
+      #return resp
+      return render_template('admin/admin_members.html')
+    
+    
+  return render_template('admin/admin.html')
+
+@bp.route('/admin/permissions')
+def page_admin_permissions():
+  token = request.cookies.get('token')
+  if token:
+    user_data = jwt.decode(token, "secret", algorithms=["HS256"])
+    if user_data:
+      print("FOUND TOKEN:", request.cookies.get('token'))
+      #resp = make_response(jsonify({'api':'logout'}))
+      #resp.set_cookie('token', '', expires=0)
+      #return resp
+      return render_template('admin/admin_members.html')
+    
+    
+  return render_template('admin/admin.html')
+
+@bp.route('/admin/bans')
+def page_admin_bans():
+  token = request.cookies.get('token')
+  if token:
+    user_data = jwt.decode(token, "secret", algorithms=["HS256"])
+    if user_data:
+      print("FOUND TOKEN:", request.cookies.get('token'))
+      #resp = make_response(jsonify({'api':'logout'}))
+      #resp.set_cookie('token', '', expires=0)
+      #return resp
+      return render_template('admin/admin_bans.html')
+    
+    
+  return render_template('admin/admin.html')
+
 
 #need to pending for register amdin or mod
 @bp.route('/admin/signup')
 def auth_admin_signup():
   token = request.cookies.get('token')
-  return render_template('admin.html')
+  return render_template('admin/admin.html')
 
 @bp.route('/admin/sigin')
 def auth_admin_signin():
   token = request.cookies.get('token')
-  return render_template('admin.html')
+  return render_template('admin/admin.html')
 
 @bp.route('/admin/signout')
 def auth_admin_signout():
   token = request.cookies.get('token')
-  return render_template('admin.html')
+  return render_template('admin/admin.html')
