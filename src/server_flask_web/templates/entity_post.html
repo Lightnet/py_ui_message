@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <script type="application/javascript">
+    function clickAdd(){
+      let entityName = document.getElementById('entityname').value;
+      let entityobj = document.getElementById('entityobj').value;
+      console.log("entityName: " , entityName)
+      console.log("entityobj: " , entityobj)
+    }
+  </script>
+  <div>
+    <a href="/game/home"> Game </a>
+    <a href="/signout">Sign Out</a>
+  </div>
+  <label>Game Entity!</label>
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          <label> Name: </label>
+        </td>
+        <td>
+          <input id="entityname">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <textarea id="entityobj"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <button onclick="clickAdd();"> Add </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+    
+{% endblock %}

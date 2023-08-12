@@ -9,12 +9,12 @@ from .model import app, db
 from . import auth
 from . import admin
 from . import game
-from . import simple_page
-#basedir = os.path.abspath(os.path.dirname(__file__))
+from . import url_page
 
 #================================================
 # CONFIG
 #================================================
+#basedir = os.path.abspath(os.path.dirname(__file__))
 #app.config['SECRET_KEY'] = 'secret!'
 #app.config['DEBUG'] = True #auto watch file and reload
 #app.register_blueprint(auth_alchemy.bp)
@@ -28,7 +28,7 @@ def create_app():
   app.config['DEBUG'] = True #auto watch file and reload
 
   #blueprint
-  app.register_blueprint(simple_page.bp)
+  app.register_blueprint(url_page.bp)
   app.register_blueprint(auth.bp)
   app.register_blueprint(admin.bp)
   app.register_blueprint(game.bp)

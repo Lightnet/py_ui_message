@@ -11,7 +11,7 @@ bp = Blueprint('message', __name__)
 #================================================
 # MESSAGE
 #================================================
-@bp.route('/hubmessage')
+@bp.route('/message/home')
 def page_admin():
   token = request.cookies.get('token')
   if token:
