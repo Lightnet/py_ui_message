@@ -25,6 +25,8 @@ class User(db.Model):
   alias = db.Column(db.String(32), unique=True, nullable=False)
   passphrase = db.Column(db.String(32), nullable=False)
   email = db.Column(db.String(128))
+  role = db.Column(db.String(128), default='member')
+  status = db.Column(db.String(128), default='offline')
   created = db.Column(db.DateTime(timezone=True),
                            server_default=func.now())
   def __repr__(self):

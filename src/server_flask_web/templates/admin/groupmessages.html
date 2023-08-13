@@ -1,0 +1,32 @@
+{% extends 'admin/base_admin.html' %}
+
+{% block content %}
+  <script type="application/javascript">    
+  </script>
+  {% include 'admin/navmenus.html' with context %}
+  <label>Admin Group Messages:</label>
+  <table>
+    <tbody>
+      <tr>
+        <td>ID:</td>
+        <td>Name:</td>
+        <td>Role: </td>
+        <td>Status: </td>
+        <td>Actions </td>
+      </tr>
+      {% for user in members %} 
+        <tr>
+          <td>{{ user.id }}</td>
+          <td>{{ user.alias }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.status }}</td>
+          <td>
+            <button>Kick</button>
+            <button>Ban</button>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+    
+{% endblock %}
